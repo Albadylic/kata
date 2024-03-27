@@ -57,10 +57,33 @@ SELECT * FROM (SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY), CIT
 
 SELECT * FROM (SELECT CITY, LENGTH(CITY) FROM STATION ORDER BY LENGTH(CITY) DESC, CITY) WHERE ROWNUM = 1;
 
+/* REGEX Challenges
+
+Reminder of the basic rules
+– .: Matches any single character except a newline.
+– *: Matches zero or more occurrences of the preceding character or group.
+– +: Matches one or more occurrences of the preceding character or group.
+– ?: Matches zero or one occurrence of the preceding character or group.
+– [ ]: Matches any single character within the brackets.
+– ( ): Groups characters together and creates a capture group.
+*/
+
 -- Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
 
-SELECT CITY FROM STATION WHERE REGEXP_LIKE(CITY,'^[AEIOU]');
+SELECT DISTINCT CITY FROM STATION WHERE REGEXP_LIKE(CITY,'^[AEIOU]');
 
 -- Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot contain duplicates.
 
 SELECT DISTINCT CITY FROM STATION WHERE REGEXP_LIKE(CITY,'[aeiou]$');
+
+-- Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. Your result cannot contain duplicates.
+
+SELECT DISTINCT CITY FROM STATION WHERE REGEXP_LIKE(CITY,'^[AEIOU].*[aeiou]$');
+
+-- Query the list of CITY names from STATION that do not start with vowels. Your result cannot contain duplicates.
+
+SELECT DISTINCT CITY FROM STATION WHERE NOT REGEXP_LIKE(CITY,'^[AEIOU]');
+
+-- Query the list of CITY names from STATION that do not end with vowels. Your result cannot contain duplicates.
+
+SELECT DISTINCT CITY FROM STATION WHERE NOT REGEXP_LIKE(CITY,'[aeiou]$');
