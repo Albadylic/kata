@@ -212,4 +212,14 @@ SELECT 'There are a total of ', COUNT(OCCUPATION), ' ', CONCAT(LOWER(OCCUPATION)
 
 After completing this challenge, I asked my colleague [Mark](https://github.com/hanleymark) if he'd worked on it too and we compared solutions. Fundamentally, they perform the same task. However, he had a neater approach to concatenating the output.
 
+This uses the `||` operator to concatenate in place. And much like in JS where we can pass n number of arguments to the `concat()` method, we can join together any number of strings. Not to be confused with the logical OR used in JS!
+
+So, after refactoring my solution, I have the following:
+
+```sql
+SELECT NAME || '(' || SUBSTR(OCCUPATION,1, 1) || ')' FROM OCCUPATIONS ORDER BY NAME;
+
+SELECT 'There are a total of ' || COUNT(OCCUPATION) ||  ' ' || LOWER(OCCUPATION) || 's.' FROM OCCUPATIONS GROUP BY OCCUPATION ORDER BY COUNT(OCCUPATION), OCCUPATION;
+```
+
 </details>
