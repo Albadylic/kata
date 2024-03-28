@@ -149,10 +149,12 @@ CONCAT(NAME, CONCAT('(', CONCAT(SUBSTR(OCCUPATION,1, 1), ')')) )
 
 In this second part, we're looking to count the number of occurences of each occupation. We'll order our output first by the number of occurences (lowest to highest) and then alphabetically (if we have two of equal number).
 
-We'll start with our `SELECT` first of all. We're going to use the `COUNT` function to count the occurences of the occupations.
+Our output should be in the form 'There are a total of [count] [occupation]s.' We're told there will always be at least two of each occupation so we can include the pluralising 's' in every output, avoiding adding in conditional logic.
+
+We'll start with our `SELECT` first of all. We're going to use the `COUNT` function to count the occurences of the occupations. We'll also include `OCCUPATION` as we'll be using this name in our output.
 
 ```sql
-SELECT COUNT(OCCUPATION) FROM OCCUPATIONS;
+SELECT COUNT(OCCUPATION), OCCUPATION FROM OCCUPATIONS;
 ```
 
 This statement will return the total number of occupations found in the table. So long as there's no `NULL` values, we'll get the number of rows in the table.
@@ -160,6 +162,54 @@ This statement will return the total number of occupations found in the table. S
 In order to get the number of occurences of *each occupation* we'll include a `GROUP BY` statement.
 
 ```sql
-SELECT COUNT()
+SELECT COUNT(OCCUPATION), OCCUPATION FROM OCCUPATIONS GROUP BY OCCUPATION;
+```
+
+This returns a set of numbers representing occurences for each occupation, followed by the occupation:
+```
+3 Doctor
+7 Professor
+4 Actor
+4 Singer
+```
+
+Next, we can orr out result into the expected order.
+
+```sql
+SELECT COUNT(OCCUPATION), OCCUPATION FROM OCCUPATIONS GROUP BY OCCUPATION ORDER BY COUNT(OCCUPATION), OCCUPATION;
+```
+
+We're now getting back the correct results, in the right order:
+
+```
+3 Doctor
+4 Actor
+4 Singer
+7 Professor
+```
+
+Our final task is to construct our output in the form expected. We can use commas within the initial `SELECT` to compose a string which concatenates strings with results returned.
+
+```sql
+SELECT 'There are a total of ', COUNT(OCCUPATION), ' ', CONCAT(LOWER(OCCUPATION), 's.') FROM OCCUPATIONS GROUP BY OCCUPATION ORDER BY COUNT(OCCUPATION), OCCUPATION;
+```
+
+As before, I'm using a `CONCAT` to combine the occupation with the pluralising 's'. I'm also using `LOWER` on the occupation to give an entirely lower case string. The value stored in the database has a capital initial which can be removed when outputting a sentence.
+
+This returns the correct result from the database for part two.
+
+### Solution 
+
+So, here we have a working solution to this problem:
+
+```sql
+SELECT CONCAT(NAME, CONCAT('(', CONCAT(SUBSTR(OCCUPATION,1, 1), ')')) ) FROM OCCUPATIONS ORDER BY NAME;
+
+SELECT 'There are a total of ', COUNT(OCCUPATION), ' ', CONCAT(LOWER(OCCUPATION), 's.') FROM OCCUPATIONS GROUP BY OCCUPATION ORDER BY COUNT(OCCUPATION), OCCUPATION;
+```
+
+### Refactoring
+
+After completing this challenge, I asked my colleague [Mark](https://github.com/hanleymark) if he'd worked on it too and we compared solutions. Fundamentally, they perform the same task. However, he had a neater approach to concatenating the output.
 
 </details>
