@@ -28,6 +28,36 @@ If more than one Occupation has the same [occupation_count],
 they should be ordered alphabetically.
 
 Note: There will be at least two entries in the table for each type of occupation.
+
+The OCCUPATIONS table is described as follows:
+
+| Column | Type |
+| --- | --- |
+| Name | String |
+| Occupation | String |
+
+The table contains the following records:
+
+| Name | Occupation |
+| --- | --- |
+| Ashley | Professor |
+| Samantha | Actor |
+| Julia | Doctor |
+| Britney | Professor |
+| Maria | Professor |
+| Meera | Professor |
+| Priya | Doctor |
+| Priyanka | Professor |
+| Jennifer | Actor |
+| Ketty | Actor |
+| Belvet | Professor |
+| Naomi | Professor |
+| Jane | Singer |
+| Jenny | Singer |
+| Kristeen | Singer |
+| Christeen | Singer |
+| Eve | Actor |
+| Aamina | Doctor |
 </details>
 
 <details>
@@ -115,6 +145,21 @@ CONCAT(NAME, CONCAT('(', CONCAT(SUBSTR(OCCUPATION,1, 1), ')')) )
 
 </details>
 
+### Part two
 
+In this second part, we're looking to count the number of occurences of each occupation. We'll order our output first by the number of occurences (lowest to highest) and then alphabetically (if we have two of equal number).
+
+We'll start with our `SELECT` first of all. We're going to use the `COUNT` function to count the occurences of the occupations.
+
+```sql
+SELECT COUNT(OCCUPATION) FROM OCCUPATIONS;
+```
+
+This statement will return the total number of occupations found in the table. So long as there's no `NULL` values, we'll get the number of rows in the table.
+
+In order to get the number of occurences of *each occupation* we'll include a `GROUP BY` statement.
+
+```sql
+SELECT COUNT()
 
 </details>
